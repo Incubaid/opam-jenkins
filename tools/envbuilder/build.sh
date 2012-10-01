@@ -1,7 +1,9 @@
 set -exu
 
-. defaults.sh
-. activate.sh
+MY_DIR=$(dirname $(readlink -f $0))
+
+. "${MY_DIR}/defaults.sh"
+. "${MY_DIR}/activate.sh"
 
 OCAML_TARBALL_NAME=$(basename "${OCAML_URL}");
 OCAML_DIR=$(basename "${OCAML_URL}" ".tar.bz2")
