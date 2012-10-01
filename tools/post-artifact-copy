@@ -1,0 +1,26 @@
+#!/usr/bin/env sh
+
+set -exu
+
+# Activate the build env
+export OPAM_ROOT="${WORKSPACE}/${OPAM_ROOT}"
+export OPAM_ROOT_PATH="${WORKSPACE}/${OPAM_ROOT_PATH}"
+
+export PATH="${OPAM_ROOT}/bin:${PATH}"
+export OPAM="opam --root ${OPAM_ROOT_PATH}"
+
+if test -d "${OPAM_ROOT_PATH}"; then
+  eval `${OPAM} config -env`
+  ${OPAM} switch "${OCAML_VERSION}"
+  ${OPAM} update
+else
+  mkdir "${OPAM_ROOT_PATH}"
+  ${OPAM} init
+  eval `${OPAM} config -env`
+  ${OPAM} remote -rm default
+  ${OPAM} remote -add incubaid-dev git://github.com/Incubaid/opam-repository-devel.git
+  ${OPAM} remote -add incubaid git://github.com/Incubaid/opam-repository.git
+  ${OPAM} switch "${OCAML_VERSION}"
+fi
+
+${OPAM} --yes install ${DEPENDENCIES};

@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+
+set -exu
+
+# Clean up old build env
+rm -Rf "${WORKSPACE}/${OPAM_ROOT}"
+
+# Optionally remove everything OPAM installed.
+if test "${RESET_OPAM}" = "true"; then
+  rm -Rf "${WORKSPACE}/${OPAM_ROOT_PATH}"
+fi
